@@ -1,0 +1,149 @@
+ 安装react
+准备 node版本 8.10 以上 node-v查看node 版本
+ cnpm install -g create-react-app     安装环境
+ create-react-app my-app	         创建一个项目，并命名
+ cd my-app 		         进入项目
+ npm start		         启动项目
+
+
+font标签<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+1、安装Andt
+	cnpm install antd --save
+      index.js粘入以下代码
+	// 由于 antd 组件的默认文案是英文，所以需要修改为中文
+	{import zhCN from 'antd/lib/locale-provider/zh_CN';
+	import moment from 'moment';
+	import 'moment/locale/zh-cn';
+	import "antd/dist/antd.css";
+	moment.locale('zh-cn');}
+    组件中写入
+	import { LocaleProvider, DatePicker, message } from 'antd';//需要谁写入谁
+2、多层嵌套所需安装
+	cnpm install prop-types
+      组件中写入
+	import  propType  from 'prop-type';
+3、 兄弟组件
+        	cnpm install events
+        	创建 event.js
+	        import {EventEmitter} from "events"
+	        export default new EventEmitter();导出 emitter 对象
+4、路由
+	cnpm install react-router-dom
+5、路由懒加载
+	cnpm install react-loadable
+jsx  js+xml
+jsx  javascript的拓展语言，完全是javascript内部实现的
+jsx  只能有一个父标签
+jsx  可以使用{表达式}
+jsx  代码的外面扩上一个小括号
+jsx  添加样式  使用className
+
+生命周期 
+vue
+.stop  组织事件向上传递
+.prevent  取消默认事件
+.capture  使用事件捕获模式（从外往里触发）
+.self  不受冒泡和捕获的影响只有点击自己的时候才会 触发
+.once  只触发一次
+.passive  scroll.passive 优化滚动事件
+
+
+react
+
+componentWillMount()   //数据挂载前调用（整个生命周期只调用一次）
+
+componentDidMount()   //数据挂载后调用（整个生命周期只调用一次）
+
+shouldComponentUpdate(nextprops，nextstate)//数据更新判断（函数返回一个布尔值）
+
+componentWillUpdate(nextprops，nextstate)//数据更新前
+
+componentDidUpdate()//数据更新后调用
+
+componentWillUnmount()//组件被卸载时执行
+
+
+0402
+
+什么是组件？react中如何定义组件？
+     通过 React 构建组件，使得代码更加容易得到复用，能够很好的应用在大项目的开发中，
+     var HelloMessage = React.createClass({ render: function() { 
+     return <h1>Hello World！</h1>; } });
+
+1.简述React特点，至少三点。    
+      	1.声明式设计
+	2.高效
+	3.灵活
+	4.单向数据流
+
+组件通信
+   组件
+	1、函数组件（无状态组件）
+	2、类组件（有状态组件）
+	注意：组件名称必须以大写字母开头
+     组件通信
+         子传父
+	子组件：使用this.props.事件名（参数）
+	父组件：<组件  事件名={处理函数}>
+	父组件的处理函数中的参数  就是子组件传递过来的数据
+    vue
+	在使用的子组件上自定义一个事件  <ComA  :on-show={xxx}/>
+	子组件中   使用$emit(‘on-show’,值）
+
+ 多层嵌套
+        引入  prop-types
+        父组件
+	声明 childContextTypes  进行数据验证
+	声明  getChildContext  提供数据和方法  供下级组件使用
+        子组件
+	声明 contextTypes 进行数据验证
+	在事件中 使用this.context.方法名（上级组件 chlidContextTypes中声明的方法）
+
+兄弟组件
+        cnpm install events
+        引入events
+      1、创建 event.js
+	import {EventEmitter} from "events"
+	export default new EventEmitter();
+            	导出 emitter 对象
+	A组件接收数据  使用emitter.addListener("changeMassage") 注册一个事件 
+   	B组件发送数据  使用emitter.emit("changeMessage","数据")
+      2、发送的组件
+ 	引入emitter对象
+	使用emitter.emit('changeMessage')
+	使用 emitter.emit('changeMessage', 'message');  通过changeMessage 发送一个数据message
+      3、在接收数据的组件中
+	引入emitter对象
+	注册接受函数  使用  emitter.addListener('changeMessage',function(message){ message参数就是传递过来的数据}) 
+     children
+	在组件中获得 使用组件时候在组件中以任何形式(标签元素)传递过来的数据 和slot 很相似
+     受控组件和非受控组件
+	受控组件 input中的value值通过state值获取，onChange事件改变state中的value值，input中的value值又从	state中获取
+	非受控  非受控也就意味着我可以不需要设置它的state属性，而通过ref来操作真实的DOM。
+
+路由搭建
+ 下载 
+cnpm install react-router-dom
+cnpm install react-loadable
+引入 
+react-router-dom  路由核心组件
+react-loadable  路由懒加载方式
+
+
+redux
+cnpm install redux
+cnpm install react-redux
+
+
+***什么是跨域（面试必问）
+   浏览器有同源策略：不同的ip地址，不同的端口号，不同的网址不同源，不同源就不能发送ajax请求，如果请求就是跨域请求（比如说百度的接口在百度的服务器上，不同ip）
+    跨域解决：（分两种）
+    1、服务器端设置可跨域
+       本地浏览器设置可跨域（谷歌跨域插件，使用lantern<蓝灯>加载cors拓展程序）
+    2、jsonp跨域
+       就是利用script的src属性的可跨域性。请求服务端的返回的数据，返回的数据中就是一个函数的调用，并把数据作为参数传进来。 在客户端创建一个返回数据中的函数，这样返回的函数就能够调用成功，里面的参数就是我们要的数据 
+    
+eg:[script src="服务器/data/js"       服务器返回一个 js文件   文件里面有   callback（{ name:"宝马})
+      在本地声明  function  callback(res){  console.log(res)   }]	
